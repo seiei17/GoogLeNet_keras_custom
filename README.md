@@ -15,12 +15,22 @@ build GoogLeNet with keras after reading paper.
 这篇paper主要的特征就是提出了inception的结构，这种结构通过在不同尺度上提取特征并组合，可以使图像得到更好的表征。
 在单纯增加网络深度的情况上，也增加了网络的宽度，比同期的VGG模型少了更多需要训练的参数。
 探讨一下inception的结构。
+
+![Image](./depository/Image.png)
+
 这是**初期**的一个inception想法，对上一层直接分别使用1x1、3x3、5x3和3x3max pooling的操作，并对产生的结果层进行concatenated（此处，作者选择这几种模式的卷积操作只是因为方便，现在的情况下因为计算能力的提升可以更加自由的设计更多规格的inception层）。而这种初期的inception有着相同的计算缺陷——计算量大。可以知道，就算是5x5的卷积核在后期的操作中所需要的计算代价也是昂贵的，特别是将pool后的网络层和conv操作后的网络层进行合并，会在短短几个阶段内造成计算量的爆炸。为了解决这个问题，作者提出了下一个版本的inception的构思。
+
+![image1](./depository/Image1.png)
+
 实际使用版本的inception在每个卷积操作和max后进行了一定量的1x1的卷积操作，通过1x1的卷积。1x1的卷积操作的灵感来源于net in net的结构，有如下几个优势：
+
 * 1x1的卷积操作可以降低输入数据的channel数量，减少计算量，达到一个降维的操作；
 * 除去降维的作用，1x1卷积操作还有作为线性修正单元的作用。
 
 #### 网络结构
+
+![architecture](./depository/architecture.png)
+
 GoogLeNet的网络结构如上表所示，总共层数是22层（不包括pooling layer）。
 
 ##### 注意
